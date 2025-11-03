@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 <br />
 
-## 경로 확인
+## Dataset
 
 <img width="292" height="175" alt="image" src="https://github.com/user-attachments/assets/01c7f413-4851-48ca-ac11-313ee217f1d7" />
 <br />
