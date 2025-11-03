@@ -1,4 +1,4 @@
-# Autonomous Driving AI Chanllenge
+# Satellite Image Building Area Segmentation
 
 Windows11, Anaconda, RTX 5070 GPU 1개
 
