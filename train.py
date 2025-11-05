@@ -30,7 +30,7 @@ def main():
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
     # training loop
-    for epoch in range(10):  # 10 에폭 동안 학습
+    for epoch in range(100):  # 100 에폭 동안 학습
         model.train()
         epoch_loss = 0
         for images, masks in tqdm(dataloader):
@@ -46,10 +46,11 @@ def main():
             epoch_loss += loss.item()
 
         print(f'Epoch {epoch+1}, Loss: {epoch_loss/len(dataloader)}')
+
+        torch.save(model.state_dict(), f'./output/UNet/check_point_{epoch+1}.pth')
+        print("Model saved to unet_model.pth")
     
-    # 학습 완료 후 모델 저장
-    torch.save(model.state_dict(), 'unet_model.pth')
-    print("Model saved to unet_model.pth")
+
 
 if __name__ == '__main__':
     main()
