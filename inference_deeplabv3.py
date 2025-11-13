@@ -11,11 +11,36 @@ from utils.utils import rle_encode
 from model.deeplabv3 import get_model
 
 def main():
-
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = get_model(num_classes=1, pretrained=False).to(device)
     
-    model.load_state_dict(torch.load('model.pth'))
-    model.eval()
+    checkpoint_path = './output/ckpt/checkpoint_80.pth'
+
+    checkpoint = torch.load(checkpoint_path, map_location=device)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    
+    model.eval() # 평가모드
+
+    test_transform = A.Compose(
+        [   
+            A.Resize(224, 224),
+            A.Normalize(),
+            ToTensorV2()
+        ]
+    )
+
+    test_dataset = SatelliteDataset(
+        csv_file='../data/test.csv',
+        transform=test_transform, 
+        infer=True
+    )
+
+    test_dataloader = DataLoader(
+        test_dataset, 
+        batch_size=16,
+        shuffle=False,
+        num_workers=4
+    )
 
     result = []
     with torch.no_grad():
@@ -37,7 +62,7 @@ def main():
     # Submission
     submit = pd.read_csv('../data/sample_submission.csv')
     submit['mask_rle'] = result
-    submit.to_csv('./deeplabv3_submit.csv', index=False)
+    submit.to_csv('./deeplabv3_ckpt80_submit.csv', index=False)
     print("Submission file created")
 
 if __name__ == '__main__':

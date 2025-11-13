@@ -13,7 +13,7 @@ def get_model(num_classes=1, pretrained=True):
     else:
         weights = None
         
-    model = deeplabv3_resnet50(weights=weights)
+    model = deeplabv3_resnet50(weights=weights, aux_loss=True)
     
     model.classifier[4] = nn.Conv2d(
         256, # DeepLabv3 classifier의 마지막 in_channels
