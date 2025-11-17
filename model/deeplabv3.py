@@ -22,7 +22,6 @@ def get_model(num_classes=1, pretrained=True):
         stride=(1, 1)
     )
     
-    # 3. 보조 분류기(aux_classifier) 수정 (학습 중에만 사용됨)
     # 이것도 똑같이 1개 클래스로 변경
     model.aux_classifier[4] = nn.Conv2d(
         256, # DeepLabv3 aux_classifier의 마지막 in_channels
@@ -32,5 +31,3 @@ def get_model(num_classes=1, pretrained=True):
     )
     
     return model
-
-

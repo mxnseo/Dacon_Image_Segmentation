@@ -10,7 +10,7 @@ from albumentations.pytorch import ToTensorV2
 from torch.utils.tensorboard import SummaryWriter
 
 from utils.dataset import SatelliteDataset 
-from model.deeplabv3 import get_model 
+from model.deeplabv3 import get_model
 from utils.validation import evaluate, dice_score 
 
 def main():
@@ -24,7 +24,7 @@ def main():
     TRAIN_CSV_PATH = '../data/train.csv' 
     VAL_CSV_PATH = '../data/val.csv'     
     
-    EPOCHS = 10
+    EPOCHS = 20
     BATCH_SIZE = 16
     MAX_CKPTS_SAVED = 10 # (유지할 최대 체크포인트)
     # --- ---
@@ -40,6 +40,7 @@ def main():
             A.RandomCrop(224, 224),
             A.RandomRotate90(p=0.5),
             A.RandomBrightnessContrast(p=0.3, brightness_limit=0.2, contrast_limit=0.2),
+            A.Blur(p=1.0),
             A.Normalize(),
             ToTensorV2()
         ]
